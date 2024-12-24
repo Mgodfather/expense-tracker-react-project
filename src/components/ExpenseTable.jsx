@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function ExpenseTable({ expense }) {
+    // const [filteredExpense, setFilteredExpense] = useState([])
+    // const selectChange = (e) => {
+    //     setFilteredExpense(expense.filter((exp) => exp.category === e.target.value));
+    // }
+
+
+    
+    
     return (
         <div className='expense-table-container'>
             <table>
@@ -8,15 +16,15 @@ export default function ExpenseTable({ expense }) {
                     <tr>
                         <th>Title</th>
                         <th>
-                            <select>
-                                <option value="" hidden>
+                            <select onChange={selectChange}>
+                                <option value="" hidden >
                                     All
                                 </option>
-                                <option value="grocery">Grocery</option>
-                                <option value="clothes">Clothes</option>
-                                <option value="medicine">Medicine</option>
-                                <option value="bills">Bills</option>
-                                <option value="education">Education</option>
+                                <option value="Grocery">Grocery</option>
+                                <option value="Clothes">Clothes</option>
+                                <option value="Medicine">Medicine</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Education">Education</option>
                             </select>
                         </th>
                         <th>Amount</th>
@@ -34,7 +42,7 @@ export default function ExpenseTable({ expense }) {
                     <tr className="total-row">
                         <td>Total</td>
                         <td></td>
-                        <td>rs 5000</td>
+                        <td>Rs {expense.reduce((total, acc) => total + parseInt(acc.amount), 0)}</td>
                     </tr>
                 </tbody>
             </table>
