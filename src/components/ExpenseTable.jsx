@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export default function ExpenseTable({ expense }) {
-    // const [filteredExpense, setFilteredExpense] = useState([])
-    // const selectChange = (e) => {
-    //     setFilteredExpense(expense.filter((exp) => exp.category === e.target.value));
-    // }
 
 
     
+    const selectChange = (e) => {
+       expense.filter((exp) => exp.category === e.target.value)
+    }
+    
+
     
     return (
         <div className='expense-table-container'>

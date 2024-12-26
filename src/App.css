@@ -24,6 +24,15 @@ h1{
 .row {
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.row p{
+    margin: 0;
+    position: absolute;
+    bottom: -14px;
+    font-size: 13px;
+    color: rgb(235, 44, 44);
 }
 
 .row label {
@@ -46,7 +55,7 @@ h1{
 }
 
 .row button {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 10px 0;
     cursor: pointer;
     border: 1px solid #595858;
