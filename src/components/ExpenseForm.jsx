@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
+import Input from './Input';
+import SelectMenu from './SelectMenu';
+
 
 export default function ExpenseForm({ setExpense }) {
 
@@ -8,6 +11,7 @@ export default function ExpenseForm({ setExpense }) {
         category: '',
         amount: ''
     })
+
 
     const [error, setError] = useState({})
 
@@ -64,7 +68,7 @@ export default function ExpenseForm({ setExpense }) {
             })
 
         )
-        
+
         setError({})
     }
 
@@ -75,35 +79,45 @@ export default function ExpenseForm({ setExpense }) {
                 <form
                     onSubmit={handleSubmit}
                 >
-                    <div className="row">
-                        <label htmlFor="title">Title</label>
-                        <input type="text" name='title' value={expenses.title} onChange={handelChange} />
-                        <p>{error.title}</p>
-                    </div>
-                    <div className="row">
-                        <label htmlFor="category">Category</label>
-                        <select name='category' value={expenses.category} onChange={handelChange}>
-                            <option value="" hidden>
-                                Select Category
-                            </option>
-                            <option value="grocery">Grocery</option>
-                            <option value="clothes">Clothes</option>
-                            <option value="medicine">Medicine</option>
-                            <option value="bills">Bills</option>
-                            <option value="education">Education</option>
-                        </select>
-                        <p>{error.category}</p>
-                    </div>
-                    <div className="row">
-                        <label htmlFor="amount">Amount</label>
-                        <input type="number" name='amount' min={0} value={expenses.amount} onChange={handelChange} />
-                        <p>{error.amount}</p>
-                    </div>
+
+                    <Input
+                        name='title'
+                        type='text'
+                        value={expenses.title}
+                        onChange={handelChange}
+                        error={error.title}
+                        id='title'
+                        label='Title'
+                    />
+
+                    <SelectMenu
+                        options={['Grocery', 'Clothes', 'Medicine', 'Bills', 'Education']}
+                        label='Category'
+                        defaultOption='Select Category'
+                        name='category'
+                        value={expenses.category}
+                        onChange={handelChange}
+                        id='category'
+                        error={error.category}
+                    />
+
+                    <Input
+                        min={0}
+                        name='amount'
+                        type='number'
+                        value={expenses.amount}
+                        onChange={handelChange}
+                        error={error.amount}
+                        id='amount'
+                        label='Amount'
+                    />
+
                     <div className="row">
                         <button type='submit' >Add</button>
                     </div>
                 </form>
             </div>
+
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
