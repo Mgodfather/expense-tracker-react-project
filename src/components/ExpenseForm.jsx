@@ -4,33 +4,41 @@ import Input from './Input';
 import SelectMenu from './SelectMenu';
 
 
-export default function ExpenseForm({ setExpense }) {
-
-    const [expenses, setExpenses] = useState({
-        title: '',
-        category: '',
-        amount: ''
-    })
-
+export default function ExpenseForm({ setExpense, setExpenses, expenses, editingId, setEditingId }) {
 
     const [error, setError] = useState({})
 
-    const validate = (formData) => {
+    const validateConfig = {
+        title: [
+            { required: true, message: "Please enter Title" },
+            { minLength: 5, message: 'Title Should be at least 5 character long' }
+        ],
+        category: [
+            { required: true, message: "Please Select Category" }
+        ],
+        amount: [
+            { required: true, message: "Please enter Amount" },
+            { minLength: 0, message: 'Amount cannot be 0' }
+        ]
+    }
 
+
+    const validate = (formData) => {
         const errorData = {}
 
+        Object.entries(formData).forEach(([key, value]) => {
+            validateConfig[key].some((rule) => {
+                if (rule.required && !value) {
+                    errorData[key] = rule.message
+                    return true
+                }
 
-        if (!formData.title) {
-            errorData.title = 'Title is required'
-        }
-
-        if (!formData.category) {
-            errorData.category = 'category is required'
-        }
-
-        if (!formData.amount) {
-            errorData.amount = 'amount is required'
-        }
+                if ((rule.minLength > value.length) || parseInt(value) === rule.minLength) {
+                    errorData[key] = rule.message
+                    return true
+                }
+            })
+        })
 
         setError(errorData)
         return errorData
@@ -47,6 +55,25 @@ export default function ExpenseForm({ setExpense }) {
             return
         }
 
+
+
+        console.log(editingId);
+
+        if (editingId) {
+            setExpense((prevData) => (
+                prevData.map((el) => {
+                    if (el.id === editingId) {
+                        return {
+                            ...expenses, id: editingId
+                        }
+                    } else {
+                        return el
+                    }
+                })
+            ))
+            setEditingId('')
+            return
+        }
 
         setExpense((prev) => [...prev, { ...expenses, id: crypto.randomUUID() }])
 
@@ -113,7 +140,7 @@ export default function ExpenseForm({ setExpense }) {
                     />
 
                     <div className="row">
-                        <button type='submit' >Add</button>
+                        <button type='submit' >{editingId ? 'Save' : 'Add'} </button>
                     </div>
                 </form>
             </div>

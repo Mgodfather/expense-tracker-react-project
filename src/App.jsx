@@ -6,12 +6,20 @@ import { expenseDetails } from '../data/expenseDetails'
 function App() {
   const [expenseData, setExpenseData] = useState(expenseDetails)
 
+  const [expenses, setExpenses] = useState({
+    title: '',
+    category: '',
+    amount: ''
+  })
+
+  const [editingId, setEditingId] = useState('')
+
   return (
     <>
-    <h1>Track Your Expense</h1>
+      <h1>Track Your Expense</h1>
       <main className="main-container">
-        <ExpenseForm setExpense={setExpenseData}/>
-        <ExpenseTable expense={expenseData}/>
+        <ExpenseForm setEditingId={setEditingId} editingId={editingId} setExpense={setExpenseData} setExpenses={setExpenses} expenses={expenses} />
+        <ExpenseTable setEditingId={setEditingId} editingId={editingId} expense={expenseData} setExpenseData={setExpenseData}  setExpenses={setExpenses}/>
       </main>
     </>
   )
