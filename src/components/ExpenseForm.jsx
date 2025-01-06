@@ -56,9 +56,6 @@ export default function ExpenseForm({ setExpense, setExpenses, expenses, editing
         }
 
 
-
-        console.log(editingId);
-
         if (editingId) {
             setExpense((prevData) => (
                 prevData.map((el) => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useFilter } from '../hooks/useFilter'
 import ContextMenu from './ContextMenu'
+import 'boxicons'
 
 export default function ExpenseTable({ expense, setExpenseData, setExpenses, setEditingId }) {
     const [filteredData, setQuery] = useFilter(expense, (data) => data.category)
@@ -10,20 +11,32 @@ export default function ExpenseTable({ expense, setExpenseData, setExpenses, set
     })
     const [dataForUpdate, setDataForUpdate] = useState({})
 
+
+    const [sortCallback, setSortCallback] = useState(() => () => {})
+
     return (
         <>
-            <ContextMenu setExpenseData={setExpenseData} 
-            setExpenses={setExpenses} 
-            positions={positions} 
-            setPositions={setPositions} 
-            dataForUpdate={dataForUpdate} 
-            setEditingId={setEditingId}
+            <ContextMenu setExpenseData={setExpenseData}
+                setExpenses={setExpenses}
+                positions={positions}
+                setPositions={setPositions}
+                dataForUpdate={dataForUpdate}
+                setEditingId={setEditingId}
             />
             <div className='expense-table-container'>
-                <table>
+                <table onClick={() => {
+                    if (positions.left) {
+                        setPositions({});
+                    }
+                }}>
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>
+                                <div className='icon-container'>
+                                    <span>Title</span>
+                                    <span className='down-arrow'><box-icon name='sort-a-z' onClick={() => setSortCallback(() => (a, b) => a.title.localeCompare(b.title))} ></box-icon></span>
+                                </div>
+                            </th>
                             <th>
                                 <select onChange={(e) => setQuery(e.target.value)}>
                                     <option value="" >
@@ -36,16 +49,24 @@ export default function ExpenseTable({ expense, setExpenseData, setExpenses, set
                                     <option value="Education">Education</option>
                                 </select>
                             </th>
-                            <th>Amount</th>
+                            <th>
+                                <div className='icon-container'>
+                                    <span>Amount</span>
+                                    <span className='up-arrow'><box-icon type='solid' name='up-arrow-alt'
+                                        onClick={(e) => setSortCallback(() => (a, b) => b.amount - a.amount)}></box-icon></span>
+                                    <span className='down-arrow'><box-icon type='solid' name='down-arrow-alt'
+                                        onClick={(e) => setSortCallback(() => (a, b) => a.amount - b.amount)}
+                                    ></box-icon></span>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             filteredData.length ?
 
-                                filteredData.map(({ id, title, category, amount }) => (
+                                filteredData.sort(sortCallback).map(({ id, title, category, amount }) => (
                                     <tr key={id}
-                                        onClick={() => setPositions({})}
                                         onContextMenu={(e) => {
                                             e.preventDefault()
                                             setPositions({
@@ -65,7 +86,7 @@ export default function ExpenseTable({ expense, setExpenseData, setExpenses, set
                         }
                         <tr className="total-row">
                             <td>Total</td>
-                            <td></td>
+                            <td style={{cursor:'pointer'}} onClick={() => setSortCallback(() => () => {})} >Clear sort</td>
                             <td>Rs {filteredData.reduce((total, acc) => total + parseInt(acc.amount), 0)}</td>
                         </tr>
                     </tbody>
