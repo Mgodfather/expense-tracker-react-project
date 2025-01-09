@@ -10,9 +10,7 @@ export default function ExpenseTable({ expense, setExpenseData, setExpenses, set
         left: ''
     })
     const [dataForUpdate, setDataForUpdate] = useState({})
-
-
-    const [sortCallback, setSortCallback] = useState(() => () => {})
+    const [sortCallback, setSortCallback] = useState(() => () => { })
 
     return (
         <>
@@ -86,7 +84,7 @@ export default function ExpenseTable({ expense, setExpenseData, setExpenses, set
                         }
                         <tr className="total-row">
                             <td>Total</td>
-                            <td style={{cursor:'pointer'}} onClick={() => setSortCallback(() => () => {})} >Clear sort</td>
+                            <td style={{ cursor: 'pointer' }} onClick={() => setSortCallback(() => () => { })} >Clear sort</td>
                             <td>Rs {filteredData.reduce((total, acc) => total + parseInt(acc.amount), 0)}</td>
                         </tr>
                     </tbody>

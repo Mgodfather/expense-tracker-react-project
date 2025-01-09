@@ -3,8 +3,10 @@ import './App.css'
 import ExpenseForm from './components/ExpenseForm'
 import ExpenseTable from './components/ExpenseTable'
 import { expenseDetails } from '../data/expenseDetails'
+import { useLocalStorage } from '../src/hooks/useLocalStorage';
+
 function App() {
-  const [expenseData, setExpenseData] = useState(expenseDetails)
+  const [expenseData, setExpenseData] = useLocalStorage('expenseData', expenseDetails)
 
   const [expenses, setExpenses] = useState({
     title: '',

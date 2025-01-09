@@ -3,7 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import Input from './Input';
 import SelectMenu from './SelectMenu';
 
-
 export default function ExpenseForm({ setExpense, setExpenses, expenses, editingId, setEditingId }) {
 
     const [error, setError] = useState({})
